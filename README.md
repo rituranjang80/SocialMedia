@@ -8,20 +8,7 @@
   <strong>Open-source social media management for creators, agencies, and SMBs.</strong>
 </p>
 
-<p align="center">
-  <a href="https://github.com/brightbeanxyz/brightbean-studio/actions/workflows/ci.yml"><img src="https://github.com/brightbeanxyz/brightbean-studio/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
-  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.12%2B-blue.svg" alt="Python 3.12+"></a>
-  <a href="https://www.djangoproject.com/"><img src="https://img.shields.io/badge/Django-5.x-green.svg" alt="Django 5.x"></a>
-</p>
 
-<p align="center">
-  <a href="https://brightbean.xyz/studio/"><img src="https://img.shields.io/badge/Free%20hosted%20version-brightbean.xyz%2Fstudio-FFB300?style=for-the-badge" alt="Free hosted version at brightbean.xyz/studio"></a>
-</p>
-
----
-
-## About BrightBean Studio
 
 BrightBean Studio is an open-source, self-hostable social media management platform built for creators, agencies and SMBs. It does what Sendible, SocialPilot, or ContentStudio do, but free and without per-seat, per-channel, or per-workspace limits. Plan, compose, schedule, approve, publish, and monitor content across Facebook, Instagram, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky, Google Business Profile, and Mastodon from a single multi-workspace dashboard.
 
