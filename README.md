@@ -1,8 +1,4 @@
-<p align="center">
-  <a href="https://github.com/brightbeanxyz/brightbean-studio">
-    <img src=".github/assets/brightbean-studio-logo.webp" alt="BrightBean Studio" width="280">
-  </a>
-</p>
+
 
 <p align="center">
   <strong>Open-source social media management for creators, agencies, and SMBs.</strong>
