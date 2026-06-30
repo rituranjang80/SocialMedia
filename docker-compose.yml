@@ -1,0 +1,72 @@
+services:
+  migrate:
+    build: .
+    command: python manage.py migrate --noinput
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  app:
+    build: .
+    volumes:
+      - media_data:/app/media
+      - ${API_CONFIG_PATH:-./config/api_defaults.json}:/app/config/api_runtime.json:ro
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - MULTITENANT_ENABLED=${MULTITENANT_ENABLED:-true}
+      - PUBLISHER_MAX_CONCURRENT_PUBLISHES=${PUBLISHER_MAX_CONCURRENT_PUBLISHES:-10}
+      - PUBLISHER_MAX_CONCURRENT_POSTS=${PUBLISHER_MAX_CONCURRENT_POSTS:-4}
+      - AGENT_API_DOCS_ENABLED=${AGENT_API_DOCS_ENABLED:-true}
+      - API_CONFIG_PATH=/app/config/api_runtime.json
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  worker:
+    build: .
+    command: python manage.py process_tasks
+    volumes:
+      - media_data:/app/media
+      - ${API_CONFIG_PATH:-./config/api_defaults.json}:/app/config/api_runtime.json:ro
+    env_file:
+      - .env
+    environment:
+      - PUBLISHER_MAX_CONCURRENT_PUBLISHES=${PUBLISHER_MAX_CONCURRENT_PUBLISHES:-10}
+      - PUBLISHER_MAX_CONCURRENT_POSTS=${PUBLISHER_MAX_CONCURRENT_POSTS:-4}
+      - API_CONFIG_PATH=/app/config/api_runtime.json
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: brightbean
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  media_data:

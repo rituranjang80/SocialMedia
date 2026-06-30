@@ -1,0 +1,50 @@
+{
+  "pagination": {
+    "inbox_default_limit": 50,
+    "inbox_max_limit": 100,
+    "calendar_max_days": 90,
+    "members_default_limit": 50
+  },
+  "defaults": {
+    "inbox_view": "all",
+    "analytics_days": 30,
+    "calendar_include_custom_events": true,
+    "invitation_org_role": "member",
+    "invitation_workspace_role": "editor"
+  },
+  "enums": {
+    "inbox_statuses": ["unread", "open", "resolved", "archived"],
+    "inbox_message_types": ["comment", "mention", "dm", "review"],
+    "inbox_sentiments": ["positive", "neutral", "negative"],
+    "inbox_views": ["all", "mine", "unassigned"],
+    "inbox_bulk_actions": ["mark_read", "resolve", "archive", "assign"],
+    "approval_workflow_modes": [
+      "none",
+      "optional",
+      "required_internal",
+      "required_internal_and_client"
+    ],
+    "org_roles_invitable": ["member", "admin"],
+    "workspace_roles_invitable": [
+      "owner",
+      "manager",
+      "editor",
+      "contributor",
+      "client",
+      "viewer"
+    ],
+    "calendar_post_statuses": [
+      "draft",
+      "pending_review",
+      "pending_client",
+      "approved",
+      "changes_requested",
+      "rejected",
+      "scheduled",
+      "publishing",
+      "published",
+      "failed"
+    ],
+    "oauth_connect_methods": ["oauth", "bluesky", "mastodon", "connection_link"]
+  }
+}

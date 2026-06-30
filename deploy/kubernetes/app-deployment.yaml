@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brightbean-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: app
+    spec:
+      containers:
+        - name: app
+          image: brightbean-studio:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: brightbean-studio-config
+            - secretRef:
+                name: brightbean-studio-secrets
+          command:
+            - gunicorn
+            - config.wsgi:application
+            - --bind
+            - 0.0.0.0:8000
+            - --workers
+            - "4"
+            - --threads
+            - "2"
+          readinessProbe:
+            httpGet:
+              path: /health/
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health/
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          volumeMounts:
+            - name: media
+              mountPath: /app/media
+            - name: api-config
+              mountPath: /app/config/api_runtime.json
+              subPath: api_runtime.json
+              readOnly: true
+      volumes:
+        - name: media
+          emptyDir: {}
+        - name: api-config
+          configMap:
+            name: brightbean-api-config
